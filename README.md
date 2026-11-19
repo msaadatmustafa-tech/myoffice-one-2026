@@ -1,6 +1,16 @@
-# MyOffice One 2026
+# MyOffice One 2026 — Free Offline Office Suite for Windows
+
+[![Windows build](https://github.com/msaadatmustafa-tech/myoffice-one-2026/actions/workflows/build-installer.yml/badge.svg)](https://github.com/msaadatmustafa-tech/myoffice-one-2026/actions/workflows/build-installer.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![Platform: Windows x64](https://img.shields.io/badge/Platform-Windows%20x64-185abd.svg)](#download-and-install-on-windows)
+
+**Write documents. Calculate spreadsheets. Create presentations. Work offline.**
 
 Free, independent, offline documents, spreadsheets and slides editor for Windows. Version **0.4.0**.
+
+MyOffice One is a free office suite with a document editor, spreadsheet editor and presentation editor in one desktop app. It supports basic DOCX, XLSX and PPTX workflows, local file saving and editable project backups.
+
+**[Installation](#download-and-install-on-windows) · [Features](#features-and-formats) · [Compatibility](#compatibility-and-backups) · [FAQ](#frequently-asked-questions) · [Report an issue](https://github.com/msaadatmustafa-tech/myoffice-one-2026/issues/new/choose)**
 
 **Free for everyone:** use, copy, modify and redistribute the custom application code under the [MIT license](LICENSE.txt), including personal and commercial use. No Microsoft Office installation is required. This project is independent and is not affiliated with or endorsed by Microsoft. Electron and other dependencies retain their own licenses.
 
@@ -21,6 +31,18 @@ The installer target is **64-bit Windows**, intended for Windows 11. End-to-end 
 ### Run without installing
 
 Open `index.html` in a current Edge or Chrome browser. This mode does not register Windows file associations. Browser storage is local to that browser/profile: export important work and keep backups before clearing browser data.
+
+On Windows, you can also double-click **Run MyOffice - No Install.cmd**.
+
+### Aasaan steps — Roman Urdu
+
+1. Node.js 24 LTS install karein.
+2. **Code > Download ZIP** se source download karke **Extract All** karein.
+3. **BUILD INSTALLER - Windows 11.cmd** par double-click karein.
+4. Build complete hone par `dist-installer` ke andar setup EXE chalayein.
+5. Install hone ke baad **MyOffice One** Start Menu ya Desktop se kholein.
+
+Sirf browser mein chalane ke liye `index.html` khol sakte hain. Zaroori files ka backup apne PC par save rakhein.
 
 ### Run or build from a terminal
 
@@ -77,7 +99,25 @@ Use **Windows Settings > Apps > Installed apps > MyOffice One > Uninstall**. Exp
 
 ## GitHub Actions build
 
-The included **Build MyOffice One Windows Installer** workflow can be run manually from the **Actions** tab. After a successful run, download its `MyOffice-One-Windows-Setup` artifact and extract it. Workflow artifacts are not the same as a public release download and may require GitHub sign-in. No prebuilt installer is promised until a build has succeeded.
+The [Windows installer workflow](https://github.com/msaadatmustafa-tech/myoffice-one-2026/actions/workflows/build-installer.yml) runs on pushes to `main`, pull requests and manual dispatch. It installs locked dependencies, runs tests and builds a Windows x64 NSIS installer. After a successful run, download its `MyOffice-One-Windows-Setup` artifact and extract it. Artifacts expire after 30 days and may require GitHub sign-in. Check the actual run result before downloading; a build badge does not verify installation on your PC.
+
+## Frequently asked questions
+
+**Is MyOffice One free for everyone?** Yes. The custom application code uses the MIT license, allowing personal and commercial use, modification and redistribution with the license notice.
+
+**Does it work offline?** Editing and local file workflows work offline. Downloading build dependencies requires internet access.
+
+**Do I need Microsoft Office?** No. This is an independent application.
+
+**Can it open Word, Excel and PowerPoint files?** Basic DOCX, XLSX and PPTX content is supported. Advanced formatting, macros and other complex features are not guaranteed. Preserve your originals.
+
+**Is the GitHub ZIP an installer?** No. It contains source code. Use the build instructions above or a successfully completed Actions build artifact.
+
+**Where is my work stored?** Draft recovery uses local browser/app storage. Save or export files to disk and use Backup for a `.myoffice` copy. There is no cloud synchronization.
+
+## Contributing and support
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development and bug reports, and [CHANGELOG.md](CHANGELOG.md) for fixes. Include reproduction steps and use a small, non-sensitive sample file when reporting a format issue.
 
 ## Development checks
 

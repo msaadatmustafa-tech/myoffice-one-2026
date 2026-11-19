@@ -48,6 +48,7 @@ assert.deepEqual([...fs.readFileSync(output)],[1,2,3]);
 let unsafe=false;
 try{await handlers['myoffice:save']({}, {name:'out.exe',bytes:[1,2,3],ext:'exe'});}catch(e){unsafe=true;}
 assert(unsafe,'Invalid save extension accepted');
+await assert.rejects(handlers['myoffice:save']({}, {name:'bad.docx',bytes:[256,-1,1.5],ext:'docx'}),/Invalid or oversized/);
 const pkg=JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url),'utf8'));
 assert.equal(pkg.build.nsis.perMachine,true);
 assert.deepEqual(pkg.build.win.fileAssociations.map(x=>x.ext),['docx','xlsx','pptx','myoffice']);

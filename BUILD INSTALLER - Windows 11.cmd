@@ -19,7 +19,7 @@ if errorlevel 1 (
   exit /b 1
 )
 echo [1/3] Downloading free desktop build dependencies...
-call npm install --no-audit --no-fund
+call npm ci --no-audit --no-fund
 if errorlevel 1 (echo Dependency download failed. Check internet.&pause&exit /b 1)
 echo [2/3] Checking JavaScript syntax and spreadsheet smoke test...
 call npm test

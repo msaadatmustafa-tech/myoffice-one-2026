@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
+import assert from 'node:assert/strict';
 const html=fs.readFileSync(new URL('./index.html', import.meta.url),'utf8');
 let scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
 let src=scripts[1].slice(0,scripts[1].lastIndexOf("$$('[data-nav]').forEach(b=>b.onclick=()=>nav(b.dataset.nav));"));
@@ -33,6 +34,24 @@ const test=async()=>{
  await vm.runInContext("putFile(data.items[0],'xlsx',true,'QA.xlsx')",ctx);
  const count=vm.runInContext('globalThis.savedBytes',ctx);if(count<1000)throw Error('Native file bridge wrote no bytes');
  console.log('Save As native disk IPC payload bytes: PASS',count);
+
+ const archive=await vm.runInContext("zipWrite({'hello.txt':'Hello office'})",ctx);
+ ctx.archiveBuffer=await archive.arrayBuffer();
+ assert.equal(new TextDecoder().decode((await vm.runInContext('zipRead(archiveBuffer)',ctx))['hello.txt']),'Hello office');
+ const damaged=new Uint8Array(ctx.archiveBuffer.slice(0));damaged[30+'hello.txt'.length]^=1;ctx.damagedBuffer=damaged.buffer;
+ await assert.rejects(vm.runInContext('zipRead(damagedBuffer)',ctx),/damaged/);
+ ctx.truncatedBuffer=ctx.archiveBuffer.slice(0,10);
+ await assert.rejects(vm.runInContext('zipRead(truncatedBuffer)',ctx),/valid Office ZIP/);
+ assert.throws(()=>vm.runInContext("normalizeBackupItem({type:'slides',slides:null})",ctx),/Invalid backup slides/);
+ const normalized=vm.runInContext("normalizeBackupItem({type:'slides',name:'Test',slides:[{title:'Title',bg:'red;position:fixed',layout:'bad'}]})",ctx);
+ assert.equal(normalized.slides[0].bg,'#273775');
+ assert.equal(normalized.slides[0].layout,'content');
+ assert.match(normalized.updated,/^\d{4}-/);
+ const originalPayload=vm.runInContext('makePayload',ctx),errors=[];ctx.makePayload=async()=>{throw Error('Serializer failed');};
+ ctx.console={...console,error:error=>errors.push(error)};
+ try{await vm.runInContext("putFile({id:'bad',name:'Bad'},'docx')",ctx);}finally{ctx.makePayload=originalPayload;ctx.console=console;}
+ assert.equal(errors[0]?.message,'Serializer failed');
+ console.log('ZIP roundtrip, corrupt/truncated ZIP rejection, backup normalization and save error handling: PASS');
 
  // PPTX serializer uses browser DOMParser, which this Node smoke harness does not provide.
  console.log('PPTX browser XML test: NOT RUN (requires DOMParser).');

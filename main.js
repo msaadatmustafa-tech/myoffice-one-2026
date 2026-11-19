@@ -38,7 +38,7 @@ function createWindow() {
       contextIsolation:true,sandbox:true,webSecurity:true}
   });
   win.setMenuBarVisibility(false);
-  win.webContents.on('will-navigate',(event,url)=>{if(!url.startsWith('file://'))event.preventDefault();});
+  win.webContents.on('will-navigate',(event,url)=>{event.preventDefault();});
   win.webContents.setWindowOpenHandler(({url})=>{
     if(/^https:\/\//i.test(url))shell.openExternal(url);
     return {action:'deny'};
@@ -60,7 +60,7 @@ function registerIpc() {
     return Promise.all(paths.map(readForRenderer));
   });
   ipcMain.handle('myoffice:save',async(_event,req)=>{
-    if(!req||!Array.isArray(req.bytes)||req.bytes.length>MAX_BYTES)throw Error('Invalid or oversized save data.');
+    if(!req||!Array.isArray(req.bytes)||req.bytes.length>MAX_BYTES||!req.bytes.every(b=>Number.isInteger(b)&&b>=0&&b<=255))throw Error('Invalid or oversized save data.');
     if(typeof req.ext!=='string'||!ALLOWED.has('.'+req.ext.toLowerCase()))throw Error('Unsupported save extension.');
     let out=typeof req.existingPath==='string'?req.existingPath:null;
     if(out && path.extname(out).toLowerCase()!=='.'+req.ext.toLowerCase())out=null;
