@@ -1,7 +1,7 @@
 {
   "name": "myoffice-one-2026",
   "productName": "MyOffice One",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Free offline office suite for Windows: edit documents, spreadsheets and presentations with DOCX, XLSX and PPTX support",
   "author": "MyOffice One project",
   "private": true,

@@ -6,7 +6,7 @@
 
 **Write documents. Calculate spreadsheets. Create presentations. Work offline.**
 
-Free, independent, offline documents, spreadsheets and slides editor for Windows. Version **0.4.0**.
+Free, independent, offline documents, spreadsheets and slides editor for Windows. Version **0.4.1**.
 
 MyOffice One is a free office suite with a document editor, spreadsheet editor and presentation editor in one desktop app. It supports basic DOCX, XLSX and PPTX workflows, local file saving and editable project backups.
 
@@ -22,11 +22,11 @@ This repository contains **source code**, not a prebuilt installer. Downloading 
 2. Download this repository using **Code > Download ZIP**, then extract it to a writable folder.
 3. Connect to the internet for the first dependency download and installer build.
 4. Double-click **BUILD INSTALLER - Windows 11.cmd** in the extracted folder.
-5. After the checks and build succeed, open `dist-installer` and run `MyOffice-One-Setup-0.4.0-x64.exe`.
+5. After the checks and build succeed, open `dist-installer` and run `MyOffice-One-Setup-0.4.1-x64.exe`.
 6. Follow the installer and approve the expected administrator prompt. Choose an installation folder; Desktop and Start Menu shortcuts are created.
 7. Start **MyOffice One**. The installed editor works offline.
 
-The installer target is **64-bit Windows**, intended for Windows 11. End-to-end installation and uninstall verification is still required. The installer is not code-signed; use a build whose source and origin you trust.
+The installer target is **64-bit Windows**, intended for Windows 11. Installation and basic document roundtrips were verified on a Windows PC; uninstall/reinstall is not yet verified. See the [PC test report](docs/windows-pc-test.md). The installer is not code-signed; use a build whose source and origin you trust.
 
 ### Run without installing
 
@@ -121,7 +121,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development and bug reports, and [CHA
 
 ## Development checks
 
-`npm test` runs JavaScript syntax checks, spreadsheet calculation and DOCX/XLSX generation smoke checks, plus mocked desktop file-open/save and file-association configuration checks. These are not an end-to-end Windows installer test. PPTX browser XML behavior is not covered by the Node smoke harness.
+`npm test` runs JavaScript syntax checks, spreadsheet calculation and DOCX/XLSX generation smoke checks, plus mocked desktop file-open/save and file-association configuration checks. These are not an end-to-end Windows installer test. PPTX browser XML behavior is not covered by the Node smoke harness; basic PPTX save/reopen was verified in the desktop PC test.
 
 ## License
 

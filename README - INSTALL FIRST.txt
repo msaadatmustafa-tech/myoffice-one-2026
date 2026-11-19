@@ -10,7 +10,7 @@ INSTALL FROM SOURCE
 3. Connect to the internet for build dependencies.
 4. Double-click BUILD INSTALLER - Windows 11.cmd.
 5. After a successful build, open dist-installer and run
-   MyOffice-One-Setup-0.4.0-x64.exe.
+   MyOffice-One-Setup-0.4.1-x64.exe.
 6. Follow setup and approve the expected administrator prompt.
 
 WITHOUT INSTALLING

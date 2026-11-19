@@ -52,6 +52,24 @@ const test=async()=>{
  try{await vm.runInContext("putFile({id:'bad',name:'Bad'},'docx')",ctx);}finally{ctx.makePayload=originalPayload;ctx.console=console;}
  assert.equal(errors[0]?.message,'Serializer failed');
  console.log('ZIP roundtrip, corrupt/truncated ZIP rejection, backup normalization and save error handling: PASS');
+ const elements=new Map(),inputs=new Map();
+ const testDoc={...fauxDoc,activeElement:null,querySelector(selector){if(!elements.has(selector))elements.set(selector,{...fauxDoc.querySelector(),value:'',classList:{add(){},remove(){}}});return elements.get(selector);}};
+ const getInput=ref=>{if(!inputs.has(ref)){const callbacks={};inputs.set(ref,{dataset:{ref},value:'',addEventListener:(name,cb)=>{callbacks[name]=cb;},select(){},focus(){testDoc.activeElement?.blur?.();testDoc.activeElement=this;callbacks.focus?.();},blur(){if(testDoc.activeElement===this){testDoc.activeElement=null;callbacks.blur?.();}},key(key){callbacks.keydown?.({key,preventDefault(){}});}});}return inputs.get(ref);};
+ ['A1','A2','A3','A4','B2'].forEach(getInput);
+ elements.set('#grid',{querySelectorAll:selector=>selector==='input'?[...inputs.values()]:[],querySelector:selector=>selector.startsWith('input')?getInput(selector.match(/data-ref="([^"]+)"/)[1]):{classList:{add(){},remove(){}}}});
+ ctx.document=testDoc;
+ vm.runInContext("data={items:[{id:'grid-qa',type:'sheets',name:'QA',sheets:[{name:'Sheet1',cells:{A1:'140',A2:'60',A3:'=SUM(A1:A2)'}}]}],active:'grid-qa',mode:'sheets'};sheetIndex=0;renderSheets(document.querySelector('#workspace'),data.items[0]);",ctx);
+ getInput('A3').focus();getInput('A3').key('Enter');
+ assert.equal(vm.runInContext('data.items[0].sheets[0].cells.A3',ctx),'=SUM(A1:A2)');
+ getInput('A3').focus();getInput('A3').key('Tab');
+ assert.equal(vm.runInContext('data.items[0].sheets[0].cells.A3',ctx),'=SUM(A1:A2)');
+ getInput('A1').focus();getInput('A1').value='150';
+ const originalSaveAs=ctx.showSaveAsDialog;ctx.showSaveAsDialog=()=>{};
+ await vm.runInContext('saveCurrent()',ctx);ctx.showSaveAsDialog=originalSaveAs;
+ assert.equal(vm.runInContext('data.items[0].sheets[0].cells.A1',ctx),'150');
+ assert.equal(vm.runInContext("calcCell('A3',data.items[0].sheets[0])",ctx),210);
+ ctx.document=fauxDoc;
+ console.log('Enter/Tab preserve formulas and Save commits an active cell: PASS');
 
  // PPTX serializer uses browser DOMParser, which this Node smoke harness does not provide.
  console.log('PPTX browser XML test: NOT RUN (requires DOMParser).');

@@ -28,7 +28,7 @@ echo [3/3] Building MyOffice One Setup EXE...
 call npm run installer-win
 if errorlevel 1 (echo Installer build failed. See error above.&pause&exit /b 1)
 echo.
-echo SUCCESS: Open dist-installer\ and double-click MyOffice-One-Setup-0.4.0-x64.exe
+echo SUCCESS: Open dist-installer\ and double-click MyOffice-One-Setup-0.4.1-x64.exe
 echo The installer will request administrator permission to register Open with options.
 echo.
 explorer "%~dp0dist-installer"

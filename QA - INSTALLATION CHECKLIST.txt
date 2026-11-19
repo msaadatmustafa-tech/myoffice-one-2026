@@ -1,30 +1,13 @@
-MyOffice One 2026 v0.4 - verification and installation checklist
-==============================================================
-PASS: JavaScript syntax and HTML inline script checks.
-PASS: Spreadsheet formula and DOCX/XLSX serializer smoke checks.
-PASS: ZIP roundtrip and damaged/truncated ZIP rejection.
-PASS: Backup validation and save serialization error handling.
-PASS: Mocked Explorer startup, second-instance file open, native save and
-      rejection of invalid extensions and invalid byte values.
+MyOffice One 0.4.1 - Windows verification
+========================================
+See docs/windows-pc-test.md for the detailed test report.
 
-NOT VERIFIED: End-to-end installation/uninstall, Windows default-app
-registration, and PPTX browser XML import/export. A successful source test
-or installer build is not a substitute for these checks.
+PASS: local installer build, installation and installed app launch.
+PASS: Desktop/Start Menu shortcuts and machine file-handler registration.
+PASS: native DOCX/XLSX/PPTX save and reopen using generated sample files.
+PASS: formulas, active-cell Save, Enter navigation and fullscreen slides.
+PASS: source regression tests.
 
-The GitHub Actions Windows workflow records the installer build result.
-Do not describe an installer as available unless that build succeeded.
-
-CHECKLIST after installation on Windows 11:
-[ ] Setup creates Start Menu and Desktop shortcuts.
-[ ] App appears in Settings > Apps > Installed apps.
-[ ] New DOCX can be saved, closed and reopened.
-[ ] XLSX with =SUM(A1:A2) persists correctly.
-[ ] PPTX can be saved, closed and reopened.
-[ ] Explorer Open with imports a supported file.
-[ ] A second file opens in the already running application.
-[ ] Save As preserves the original imported document.
-[ ] Windows Default apps allows selecting supported extensions.
-[ ] Uninstall removes the app and retains user documents.
-
-Compatibility: no full Microsoft Office feature parity. VBA, Power Query,
-complex layouts and advanced media/animations are not guaranteed.
+NOT VERIFIED: uninstall/reinstall (tool policy blocked uninstaller launch),
+Windows user default-app choices, and complex Microsoft Office compatibility.
+The application remains installed.
