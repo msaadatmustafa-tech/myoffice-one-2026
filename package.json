@@ -1,0 +1,88 @@
+{
+  "name": "myoffice-one-2026",
+  "productName": "MyOffice One",
+  "version": "0.4.0",
+  "description": "Independent free offline documents, spreadsheets and slides editor",
+  "author": "MyOffice One project",
+  "private": true,
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "package-win": "electron-packager . MyOfficeOne --platform=win32 --arch=x64 --out=dist-portable --overwrite --prune=true --icon=assets/myoffice-icon.ico --ignore=smoke-test --ignore=README --ignore=.github --ignore=dist-installer --ignore=dist-portable",
+    "installer-win": "electron-builder --win nsis --x64",
+    "test": "node --check main.js && node --check preload.js && node smoke-test.mjs && node test-launch.mjs"
+  },
+  "devDependencies": {
+    "electron": "45.3.4",
+    "@electron/packager": "20.3.0",
+    "electron-builder": "26.0.12"
+  },
+  "build": {
+    "appId": "org.myofficeone.desktop",
+    "productName": "MyOffice One",
+    "asar": true,
+    "directories": {
+      "output": "dist-installer"
+    },
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/myoffice-icon.ico",
+      "fileAssociations": [
+        {
+          "ext": "docx",
+          "name": "MyOffice One Document",
+          "description": "Word-compatible document",
+          "role": "Editor",
+          "icon": "assets/myoffice-icon.ico"
+        },
+        {
+          "ext": "xlsx",
+          "name": "MyOffice One Workbook",
+          "description": "Excel-compatible workbook",
+          "role": "Editor",
+          "icon": "assets/myoffice-icon.ico"
+        },
+        {
+          "ext": "pptx",
+          "name": "MyOffice One Presentation",
+          "description": "PowerPoint-compatible presentation",
+          "role": "Editor",
+          "icon": "assets/myoffice-icon.ico"
+        },
+        {
+          "ext": "myoffice",
+          "name": "MyOffice One Project",
+          "description": "MyOffice editable backup",
+          "role": "Editor",
+          "icon": "assets/myoffice-icon.ico"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MyOffice One",
+      "artifactName": "MyOffice-One-Setup-${version}-${arch}.${ext}",
+      "uninstallDisplayName": "MyOffice One"
+    }
+  }
+}

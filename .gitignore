@@ -1,0 +1,10 @@
+node_modules/
+dist-installer/
+dist-portable/
+qa-export.*
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

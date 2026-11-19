@@ -1,0 +1,25 @@
+MyOffice One 2026 v0.4 — installation QA status
+=================================================
+STATIC CHECKS: Main/preload JavaScript syntax, HTML inline scripts, NSIS config,
+file association declarations and Windows Explorer startup/second-instance
+arguments were tested using a mocked Electron shell in Node.
+SMOKE TEST: Formula and Open/Save conversion can be tested with node smoke-test.mjs.
+BUILD STATUS: Windows NSIS installer cannot be generated locally in this runtime
+because electron-builder/Electron binaries require downloads unavailable here.
+WINDOWS GUI STATUS: NOT TESTED on a live Windows 11 desktop. File association
+registration and Start Menu/Desktop shortcuts require a local Windows build/installation.
+
+CHECKLIST after installation on Windows 11:
+[ ] Setup EXE prompts UAC, creates Start Menu icon + Desktop shortcut
+[ ] MyOffice appears in Settings > Apps > Installed apps
+[ ] New .docx document can be saved, closed, and reopened
+[ ] New .xlsx with =SUM(A1:A2) persists correctly
+[ ] New .pptx can be saved, closed, reopened
+[ ] Existing .docx right-click > Open with > MyOffice One imports it
+[ ] While app is running, second .xlsx opens in same window
+[ ] Save As preserves original source file when imported format may be lossy
+[ ] Settings Default apps lets user associate desired extensions
+[ ] Uninstaller removes app and does not delete user documents
+
+Known limitations: no full Microsoft Office feature parity, proprietary cloud
+features, VBA, Power Query, complex layouts or all media/animations.
